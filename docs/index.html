@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Carrego, não proteção — nota sobre "Repensando o ativo sem risco"</title>
+<title>O paper prova mais do que afirma — nota sobre "Repensando o ativo sem risco"</title>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=IBM+Plex+Sans:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0E1113;--bg2:#161C1F;--bg3:#1E262A;--vinho:#6B1E2C;--vinho2:#9A2E42;--verde:#123329;--verde2:#1F5C47;--verde3:#4FBF8E;--ambar:#D99A3B;--ambar2:#F2B65A;--areia:#F3EDE6;--areia2:#D6CEC3;--mudo:#9A9287;--linha:rgba(243,237,230,.14);--onvinho:#F3EDE6;--onvinho2:#D6CEC3;--band:#121719}
@@ -81,30 +81,48 @@ footer{padding:28px 0 70px;color:var(--mudo);font-family:"IBM Plex Mono",monospa
 .theme{position:fixed;right:14px;bottom:14px;z-index:9;display:flex;border:1px solid var(--linha);border-radius:6px;overflow:hidden;background:var(--bg2);font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:12px}
 .theme button{background:transparent;border:0;color:var(--mudo);padding:9px 13px;cursor:pointer;font:inherit}.theme button.on{background:var(--ambar);color:#0E1113}
 @media(max-width:700px){.fig svg.d{display:none}.fig svg.m{display:block}.leg{display:none}.wrap{padding:0 16px}.fig{margin:0 -16px 20px;border-radius:0;border-left:0;border-right:0}.cap{margin:12px -14px 0}body{font-size:17px}.lead{font-size:18px}section{padding:44px 0 24px}.sh{grid-template-columns:52px 1fr;gap:12px}.sh .num{width:44px;height:44px;font-size:18px}.fala{font-size:18px}h1{font-size:46px}}
+
+/* leitura */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--ambar);z-index:20;transition:width .1s linear}
+section{padding:72px 0 48px}
+.lead{max-width:70ch;font-size:19px;line-height:1.72;margin:0 0 28px}
+.lead b{color:var(--areia);font-weight:700}
+.tldr{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;background:var(--bg2);border:1px solid var(--linha);border-left:5px solid var(--ambar);border-radius:0 10px 10px 0;padding:14px 18px;margin:0 0 24px;max-width:78ch}
+.tldr .t{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ambar2);padding-top:5px;white-space:nowrap}
+.tldr p{margin:0;font-family:Archivo,sans-serif;font-weight:700;font-size:18px;line-height:1.4}
+.fala{max-width:78ch}
+.cap{line-height:1.55}
+.step p{line-height:1.6}
+nav a.on{background:var(--bg3);color:var(--areia);box-shadow:inset 0 -2px 0 var(--ambar)}
+.hero .by{margin-top:28px}
+.rt{display:inline-block;margin-left:10px;padding:2px 8px;border:1px solid rgba(243,237,230,.25);border-radius:999px}
+@media(max-width:700px){section{padding:48px 0 28px}.lead{font-size:18px;line-height:1.7}.tldr{grid-template-columns:1fr;gap:6px;padding:12px 14px}.tldr p{font-size:17px}}
 </style></head><body>
+<div class="progress" id="prog"></div>
 <div class="theme"><button id="tDark">● escuro</button><button id="tLight">○ claro</button></div>
 <script>(function(){var r=document.documentElement,bd=document.getElementById('tDark'),bl=document.getElementById('tLight');function set(t,s){r.setAttribute('data-theme',t);bd.classList.toggle('on',t==='dark');bl.classList.toggle('on',t==='light');if(s){try{localStorage.setItem('iaff-theme',t)}catch(e){}}}var t='dark';try{t=localStorage.getItem('iaff-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark')}catch(e){}set(t,false);bd.onclick=function(){set('dark',true)};bl.onclick=function(){set('light',true)};})();</script>
 
 <div class="hero"><div class="wrap">
   <div>
     <div class="k">Nota sobre "Repensando o ativo sem risco: uma visão brasileira" · Marinho, Ribeiro e Wichmann, 2026</div>
-    <h1>Carrego,<br>não proteção.</h1>
-    <p>A NTN-B casada ao passivo é o ativo sem risco — por construção. Mas o que a evidência de 2010–2026 mostra é um prêmio a termo real positivo, não um prêmio de inflação: o prefixado, sem proteção nenhuma, rendeu o mesmo.</p>
-    <p>Separar os dois argumentos deixa o paper mais forte — e abre o próximo.</p>
-    <div class="by">Érika Bosco · Insper MPE · novembro de 2026 · todos os números vêm das tabelas do paper</div>
+    <h1>O paper prova<br>mais do que afirma.</h1>
+    <p>Li "Repensando o ativo sem risco" com a sensação de quem encontra um mapa: a NTN-B casada ao passivo é o ativo sem risco — e isso é verdade por construção, independe de amostra. Ao refazer as contas, encontrei um segundo achado escondido nas tabelas: o que fez o IPCA+ render mais foi <b>carrego</b>, prêmio de prazo — o prefixado, sem proteção, rendeu o mesmo.</p>
+    <p>Esta nota é um convite: separar os dois argumentos deixa o paper mais forte, e abre três extensões que eu gostaria de construir com vocês.</p>
+    <div class="by">Érika Bosco · Insper MPE · novembro de 2026 · todos os números vêm das tabelas do paper — obrigada por tê-las publicado com esse cuidado <span class="rt">≈ 7 min de leitura</span></div>
   </div>
   <div class="hstat">
     <div><div class="v g">2,5 pp</div><div class="l">carrego real médio por ano, travado na NTN-B de 5 anos</div><div class="s">derivado da Tabela 7 · 14 janelas</div></div>
     <div><div class="v">≈ 0</div><div class="l">prêmio de inflação realizado: prefixado empatou com IPCA+</div><div class="s">Tabela 3 · 1, 5 e 10 anos</div></div>
-    <div><div class="v r">0 de 23</div><div class="l">janelas em que a Tabela 7 testa o prefixado</div><div class="s">o comparador que mediria proteção</div></div>
+    <div><div class="v r">0 de 23</div><div class="l">janelas da Tabela 7 com o prefixado — a extensão mais simples que proponho</div><div class="s">o comparador que mediria proteção</div></div>
   </div>
 </div></div>
 
 
 <nav><div class="wrap"><a href="#s0"><b>00</b>Intenção</a><a href="#s1"><b>01</b>Evidência</a><a href="#s2"><b>02</b>A conta</a><a href="#s3"><b>03</b>Carrego medido</a><a href="#s4"><b>04</b>Próximos passos</a><a href="#s5"><b>05</b>Repositório</a></div></nav>
 <section id="s0" class="band"><div class="wrap">
-  <div class="sh"><div class="num">00</div><div><h2>Por que esta nota: <b>a intenção</b></h2><div class="sub">de leitora a orientanda</div></div></div>
-  <p class="lead">Li o paper como quem quer continuar o trabalho, não como quem quer encontrar erro. Repliquei o que dava para replicar só com as tabelas publicadas; onde o dado e a narrativa divergem, escrevi o que encontrei; e transformei cada divergência numa extensão que os próprios autores teriam motivo para querer feita. <b>O objetivo desta nota é pedir orientação para fazer essas extensões, alinhada com vocês.</b></p>
+  <div class="sh"><div class="num">00</div><div><h2>Por que esta nota: <b>um convite</b></h2><div class="sub">de leitora a colaboradora</div></div></div>
+  <div class="tldr"><span class="t">Em uma frase</span><p>Não é uma crítica: é um convite para construir, com vocês, o que o paper já aponta.</p></div>
+  <p class="lead">Passei vinte anos no mercado olhando o CDI como porto seguro. O paper de vocês mudou a pergunta — de "qual ativo" para "qual passivo" — e isso é o tipo de ideia que a gente não desaprende. Li como quem quer continuar o trabalho: repliquei o que dava para replicar só com as tabelas publicadas, anotei onde os dados contam uma história ainda mais interessante do que o texto, e transformei cada anotação numa extensão. <b>O que peço é simples: orientação para construir essas extensões junto com vocês.</b></p>
   <div class="fig"><svg class="d" viewBox="0 0 900 150" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Mono, monospace" font-weight="600">
 <rect x="10" y="20" width="160" height="100" rx="8" fill="var(--verde)"/>
 <text x="24" y="50" font-size="12" fill="var(--ambar2)" letter-spacing="2">01</text>
@@ -118,8 +136,8 @@ footer{padding:28px 0 70px;color:var(--mudo);font-family:"IBM Plex Mono",monospa
 <text x="357" y="76" font-size="18" fill="var(--mudo)">›</text>
 <rect x="366" y="20" width="160" height="100" rx="8" fill="var(--verde)"/>
 <text x="380" y="50" font-size="12" fill="var(--ambar2)" letter-spacing="2">03</text>
-<text x="380" y="78" font-size="18" fill="var(--onvinho)" font-family="Archivo, sans-serif" font-weight="800">CRITICAR</text>
-<text x="380" y="102" font-size="11.5" fill="var(--onvinho2)">dado vs narrativa</text>
+<text x="380" y="78" font-size="18" fill="var(--onvinho)" font-family="Archivo, sans-serif" font-weight="800">DESCOBRIR</text>
+<text x="380" y="102" font-size="11.5" fill="var(--onvinho2)">o segundo achado</text>
 <text x="535" y="76" font-size="18" fill="var(--mudo)">›</text>
 <rect x="544" y="20" width="160" height="100" rx="8" fill="var(--vinho)"/>
 <text x="558" y="50" font-size="12" fill="var(--ambar2)" letter-spacing="2">04</text>
@@ -128,8 +146,8 @@ footer{padding:28px 0 70px;color:var(--mudo);font-family:"IBM Plex Mono",monospa
 <text x="713" y="76" font-size="18" fill="var(--mudo)">›</text>
 <rect x="722" y="20" width="160" height="100" rx="8" fill="var(--vinho)"/>
 <text x="736" y="50" font-size="12" fill="var(--ambar2)" letter-spacing="2">05</text>
-<text x="736" y="78" font-size="18" fill="var(--onvinho)" font-family="Archivo, sans-serif" font-weight="800">ORIENTAÇÃO</text>
-<text x="736" y="102" font-size="11.5" fill="var(--onvinho2)">com os autores</text>
+<text x="736" y="78" font-size="18" fill="var(--onvinho)" font-family="Archivo, sans-serif" font-weight="800">CONSTRUIR</text>
+<text x="736" y="102" font-size="11.5" fill="var(--onvinho2)">junto com vocês</text>
 </svg><svg class="m" viewBox="0 0 420 400" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Mono, monospace" font-weight="600">
 <rect x="10" y="10" width="400" height="64" rx="8" fill="var(--verde)"/>
 <text x="26" y="36" font-size="11" fill="var(--ambar2)" letter-spacing="2">01</text>
@@ -141,29 +159,30 @@ footer{padding:28px 0 70px;color:var(--mudo);font-family:"IBM Plex Mono",monospa
 <text x="60" y="138" font-size="12" fill="var(--onvinho2)">só o que foi publicado</text>
 <rect x="10" y="166" width="400" height="64" rx="8" fill="var(--verde)"/>
 <text x="26" y="192" font-size="11" fill="var(--ambar2)" letter-spacing="2">03</text>
-<text x="60" y="196" font-size="17" fill="var(--onvinho)" font-family="Archivo, sans-serif" font-weight="800">CRITICAR</text>
-<text x="60" y="216" font-size="12" fill="var(--onvinho2)">dado vs narrativa</text>
+<text x="60" y="196" font-size="17" fill="var(--onvinho)" font-family="Archivo, sans-serif" font-weight="800">DESCOBRIR</text>
+<text x="60" y="216" font-size="12" fill="var(--onvinho2)">o segundo achado</text>
 <rect x="10" y="244" width="400" height="64" rx="8" fill="var(--vinho)"/>
 <text x="26" y="270" font-size="11" fill="var(--ambar2)" letter-spacing="2">04</text>
 <text x="60" y="274" font-size="17" fill="var(--onvinho)" font-family="Archivo, sans-serif" font-weight="800">PROPOR</text>
 <text x="60" y="294" font-size="12" fill="var(--onvinho2)">três extensões</text>
 <rect x="10" y="322" width="400" height="64" rx="8" fill="var(--vinho)"/>
 <text x="26" y="348" font-size="11" fill="var(--ambar2)" letter-spacing="2">05</text>
-<text x="60" y="352" font-size="17" fill="var(--onvinho)" font-family="Archivo, sans-serif" font-weight="800">ORIENTAÇÃO</text>
-<text x="60" y="372" font-size="12" fill="var(--onvinho2)">com os autores</text>
+<text x="60" y="352" font-size="17" fill="var(--onvinho)" font-family="Archivo, sans-serif" font-weight="800">CONSTRUIR</text>
+<text x="60" y="372" font-size="12" fill="var(--onvinho2)">junto com vocês</text>
 </svg>
-  <p class="cap">Verde: o que já está feito nesta nota. Vinho: o que depende de vocês.</p></div>
+  <p class="cap">Verde: o que já está feito nesta nota. Vinho: o que só faz sentido com vocês.</p></div>
   <div class="ask">
-    <div class="a"><h4>O que esta nota não é</h4><p>Uma refutação. O argumento central do paper — a NTN-B casada é o ativo sem risco de quem tem passivo real — sobrevive intacto; é por construção.</p></div>
-    <div class="b"><h4>O que esta nota é</h4><p>Uma separação: o que o paper prova por teoria e o que a evidência mede de fato. E um pedido: continuar daqui, com vocês, no Insper em 2027.</p></div>
+    <div class="a"><h4>O que esta nota não é</h4><p>Uma crítica. O argumento central — a NTN-B casada é o ativo sem risco de quem tem passivo real — é verdadeiro por construção e vai continuar sendo em qualquer amostra.</p></div>
+    <div class="b"><h4>O que esta nota é</h4><p>Um "olhem o que mais os dados de vocês dizem": o paper prova por teoria uma coisa e mede, sem dizer, outra — igualmente valiosa. E um pedido para continuar daqui, juntos, no Insper em 2027.</p></div>
   </div>
 </div></section>
 
 
 
 <section id="s1"><div class="wrap">
-  <div class="sh"><div class="num">01</div><div><h2>A evidência: <b>o título sem proteção rendeu o mesmo</b></h2><div class="sub">Tabelas 1 e 3 do paper · retornos reais</div></div></div>
-  <p class="lead">A Seção 7 diz que pagar o prêmio de inflação "tem sido vantajoso" porque a inflação realizada superou a esperada. Se fosse assim, o prefixado teria perdido do IPCA+. <b>Na Tabela 3, ele empata ou ganha em todos os horizontes.</b></p>
+  <div class="sh"><div class="num">01</div><div><h2>O segundo achado: <b>o título sem proteção rendeu o mesmo</b></h2><div class="sub">Tabelas 1 e 3 do paper · retornos reais</div></div></div>
+  <div class="tldr"><span class="t">Em uma frase</span><p>O prefixado, sem proteção, rendeu o mesmo que o IPCA+. O seguro contra inflação foi precificado justo.</p></div>
+  <p class="lead">A Seção 7 atribui o retorno do IPCA+ à inflação ter superado a esperada. Foi a Tabela 3 de vocês que me fez olhar de novo: se fosse isso, o prefixado deveria ter perdido do IPCA+ — <b>e ele empata ou ganha em todos os horizontes</b>. A proteção foi precificada com justiça; quem pagou foi o prazo. É um resultado bonito, e está nos dados de vocês.</p>
   <div class="tiles">
     <div class="tile"><div class="v">5,71%</div><div class="l">prefixado (IDKA5), real, janelas de 1 ano</div><div class="s">vs 5,47% do IPCA+ longo · Tabela 3</div></div>
     <div class="tile ver"><div class="v">9 de 16</div><div class="l">anos em que o prefixado vence o IPCA+</div><div class="s">Tabela 1</div></div>
@@ -194,12 +213,13 @@ footer{padding:28px 0 70px;color:var(--mudo);font-family:"IBM Plex Mono",monospa
 <text x="104" y="235" text-anchor="end" font-size="12" fill="var(--areia2)">IPCA+ longo</text><rect x="112" y="220" width="191.9" height="18" rx="3" fill="var(--verde3)"/><text x="309.9" y="235" font-size="14" fill="var(--verde3)">5,55%</text>
 <text x="104" y="259" text-anchor="end" font-size="12" fill="var(--areia2)">Prefixado 5a</text><rect x="112" y="244" width="197.4" height="18" rx="3" fill="var(--areia2)"/><text x="315.4" y="259" font-size="14" fill="var(--areia2)">5,71%</text>
 </svg><div class="leg"><span><i style="background:var(--verde3)"></i>IMAB5+ (IPCA+ longo, com proteção)</span><span><i style="background:var(--areia2)"></i>IDKA5 (prefixado 5a, sem proteção)</span></div>
-  <p class="cap">O IMAB5+ tem duration maior que o IDKA5 — o viés joga contra a NTN-B: mais prazo, mesmo retorno. A Tabela 12 mede o prêmio contra o Focus, não contra a inflação realizada: o mercado precificou justo; o Focus errou.</p></div>
+  <p class="cap">O IMAB5+ tem duration maior que o IDKA5 — o viés joga contra a NTN-B: mais prazo, mesmo retorno. A Tabela 12 mede o prêmio contra o Focus; medido contra a inflação realizada, ele some. O mercado acertou — o que, no fundo, é boa notícia para a tese.</p></div>
 </div></section>
 
 <section id="s2" class="band"><div class="wrap">
   <div class="sh"><div class="num">02</div><div><h2>A conta: <b>duas diferenças, dois prêmios</b></h2><div class="sub">títulos carregados até o vencimento</div></div></div>
-  <p class="lead">A comparação com o CDI mede <b>prazo</b>; a comparação com o prefixado mede <b>indexador</b>. O paper usa só a primeira e atribui o resultado à segunda.</p>
+  <div class="tldr"><span class="t">Em uma frase</span><p>NTN-B − CDI mede prazo. Prefixado − NTN-B mede indexador. O paper fez a primeira; a segunda ficou aberta.</p></div>
+  <p class="lead">A comparação com o CDI mede <b>prazo</b>; a comparação com o prefixado mede <b>indexador</b>. O paper faz a primeira com rigor; a segunda é a porta que ficou entreaberta — e é por ela que proponho entrar.</p>
   <div class="fig"><svg class="d" viewBox="0 0 900 190" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Mono, monospace" font-weight="600">
 <rect x="20" y="16" width="420" height="150" rx="8" fill="var(--verde)"/>
 <text x="42" y="52" font-size="24" fill="var(--onvinho)" font-family="Archivo, sans-serif" font-weight="800">NTN-B − CDI</text>
@@ -221,12 +241,13 @@ footer{padding:28px 0 70px;color:var(--mudo);font-family:"IBM Plex Mono",monospa
 <text x="28" y="252" font-size="13" fill="var(--onvinho2)">= inflação implícita − realizada</text>
 <text x="28" y="286" font-size="12" fill="var(--ambar2)" letter-spacing="2">PROTEÇÃO · prêmio de indexador</text>
 </svg>
-  <p class="cap">A Tabela 6 já aponta: a yield real de 5 anos prevê os prefixados tanto quanto os indexados — "um fator comum". Esse fator é o prêmio a termo.</p></div>
+  <p class="cap">A Tabela 6 já intuía: a yield real de 5 anos prevê os prefixados tanto quanto os indexados — "um fator comum", nas palavras de vocês. Esse fator tem nome: prêmio a termo real. Nomeá-lo é o que falta.</p></div>
 </div></section>
 
 <section id="s3"><div class="wrap">
   <div class="sh"><div class="num">03</div><div><h2>O carrego medido: <b>2,5 pontos ao ano</b></h2><div class="sub">derivado da Tabela 7 · 14 janelas de 5 anos</div></div></div>
-  <p class="lead">Da Tabela 7 extrai-se, janela a janela, a taxa real travada na NTN-B e a Selic real média dos 5 anos seguintes. A diferença é o carrego realizado — <b>positivo em 11 de 14 janelas</b>. É isso que explica a NTN-B bater o CDI. Não é inflação: o prefixado de cada data travou a mesma coisa.</p>
+  <div class="tldr"><span class="t">Em uma frase</span><p>Extraído da Tabela 7: 2,5 pontos de carrego real por ano — é isso que explica a NTN-B bater o CDI.</p></div>
+  <p class="lead">A Tabela 7 guarda mais do que o exercício da faculdade: dela extrai-se, janela a janela, a taxa real travada na NTN-B e a Selic real média dos 5 anos seguintes. A diferença é o carrego realizado — <b>positivo em 11 de 14 janelas</b>. É isso que explica a NTN-B bater o CDI, e é um resultado sobre a estrutura a termo real brasileira que, até onde sei, ninguém publicou. Está na tabela de vocês.</p>
   <div class="tiles">
     <div class="tile ver"><div class="v">+5,3</div><div class="l">jan/2017: travou 6,0% real; a Selic real veio 0,7%</div><div class="s">maior carrego da amostra</div></div>
     <div class="tile"><div class="v">11 / 14</div><div class="l">janelas com carrego positivo</div><div class="s">negativas só nas entradas de 2020–21</div></div>
@@ -358,37 +379,42 @@ footer{padding:28px 0 70px;color:var(--mudo);font-family:"IBM Plex Mono",monospa
 <text x="414" y="419.0" text-anchor="end" font-size="13" fill="var(--vinho2)">-2,7</text>
 </svg><div class="leg"><span><i style="background:var(--ambar)"></i>taxa real da NTN-B na entrada</span><span><i style="background:var(--vinho2)"></i>Selic real média nos 5 anos seguintes</span><span><i style="background:var(--verde3)"></i>carrego = diferença</span></div>
   <p class="cap">Janelas de janeiro de 2015 em diante (IPCA até a data de entrada disponível na própria tabela) mais jan/2010. Carrego = taxa real travada − Selic real média realizada.</p></div>
-  <div class="fala">"O argumento de <b>retorno</b> (Seção 7) cai. O argumento de <b>variância do passivo</b> (Tabela 7) fica — e vira o único. Compra-se a proteção pela variância, não pelo retorno. O seguro foi precificado justo."</div>
+  <div class="fala">"Separados, os dois argumentos ficam mais fortes: a NTN-B casada é o ativo sem risco porque <b>zera a variância do passivo</b> — Merton puro — e o que rendeu mais foi o <b>prazo</b>, que qualquer título longo capturou. Compra-se a proteção pela variância, não pelo retorno. E ela estava a preço justo."</div>
 </div></section>
 
 <section id="s4" class="band"><div class="wrap">
-  <div class="sh"><div class="num">04</div><div><h2>Próximos passos: <b>o que eu proponho fazer</b></h2><div class="sub">três extensões, cada uma respondendo a uma seção do paper</div></div></div>
+  <div class="sh"><div class="num">04</div><div><h2>Próximos passos: <b>o que eu gostaria de construir com vocês</b></h2><div class="sub">três extensões, cada uma nascendo de uma seção do paper</div></div></div>
+  <div class="tldr"><span class="t">Em uma frase</span><p>Três extensões, cada uma nascendo de uma seção do paper. Duas em duas semanas; a terceira é a dissertação.</p></div>
   <div class="steps">
-    <div class="step"><div class="n">1</div><h3>Decompor o carrego com o Focus</h3><p>Prêmio a termo ex-ante (yield real − Selic real esperada na entrada) vs erro de expectativa (Selic esperada − realizada), nas mesmas janelas. Dados públicos; replicável em código.</p><div class="tag">responde à Seção 4 · hipótese das expectativas na curva real</div></div>
-    <div class="step"><div class="n">2</div><h3>Incluir o prefixado na Tabela 7</h3><p>O único comparador que testa proteção: imuniza o passivo nominal e falha no real pela surpresa de inflação. Separa prazo de indexador no ALM — e mostra o que o IR sobre a correção monetária (≈8% do aporte) tira de cada um.</p><div class="tag">responde à Seção 5 · carrego vs proteção no ALM</div></div>
-    <div class="step"><div class="n">3</div><h3>Levar a tese ao default da previdência</h3><p>Se o argumento normativo é verdade por construção, a pergunta é "por que ninguém faz?". Desenhar e custear um glide path padrão com RendA+ para planos DC e previdência aberta: o custo de ancorar no CDI em probabilidade de shortfall da renda-alvo.</p><div class="tag">responde à última frase do resumo · dissertação, Insper MPE 2027</div></div>
+    <div class="step"><div class="n">1</div><h3>Decompor o carrego com o Focus</h3><p>Prêmio a termo ex-ante (yield real − Selic real esperada na entrada) vs erro de expectativa (Selic esperada − realizada), nas mesmas janelas. Dados públicos; replicável em código.</p><div class="tag">nasce da Seção 4 · hipótese das expectativas na curva real</div></div>
+    <div class="step"><div class="n">2</div><h3>Incluir o prefixado na Tabela 7</h3><p>O único comparador que testa proteção: imuniza o passivo nominal e falha no real pela surpresa de inflação. Separa prazo de indexador no ALM — e mostra o que o IR sobre a correção monetária (≈8% do aporte) tira de cada um.</p><div class="tag">nasce da Seção 5 · carrego vs proteção no ALM</div></div>
+    <div class="step"><div class="n">3</div><h3>Levar a tese ao default da previdência</h3><p>Se o argumento normativo é verdade por construção, a pergunta que sobra é "por que quase ninguém faz?". Vocês apontaram a previdência na última frase do resumo; eu gostaria de ir até lá: desenhar e custear um glide path padrão com RendA+ para planos DC e previdência aberta, medindo o custo de ancorar no CDI em probabilidade de shortfall da renda-alvo. O Brasil é o único país com o instrumento pronto — e o paper de vocês é o argumento.</p><div class="tag">nasce da última frase do resumo · dissertação, Insper MPE 2027</div></div>
   </div>
   <div class="ask">
-    <div class="a"><h4>O que eu peço</h4><p>Dados e código das Tabelas 1–7 para replicação, e 30 minutos sobre o passo 3 como tema de dissertação.</p></div>
-    <div class="b"><h4>O que eu entrego</h4><p>Passos 1 e 2 em duas semanas, com código aberto; o painel mensal em quatro.</p></div>
+    <div class="a"><h4>O que eu peço</h4><p>Os dados e o código das Tabelas 1–7, para que a replicação seja exata; e 30 minutos de conversa sobre o passo 3 como tema de dissertação.</p></div>
+    <div class="b"><h4>O que eu trago</h4><p>Os passos 1 e 2 prontos em duas semanas, com código aberto e crédito a vocês; o painel mensal em quatro. E a disposição de ouvir "não é por aí".</p></div>
   </div>
 </div></section>
 
 <section id="s5"><div class="wrap">
   <div class="sh"><div class="num">05</div><div><h2>O repositório: <b>tudo aberto, passo a passo</b></h2><div class="sub">github.com/epb-stack/carrego-nao-protecao</div></div></div>
-  <p class="lead">Cada número desta nota tem um script que o reproduz a partir das tabelas do paper, sem nenhum dado proprietário. Os próximos passos entram no mesmo repositório, como <b>issues abertas</b> — onde vocês podem comentar, corrigir e redirecionar.</p>
+  <div class="tldr"><span class="t">Em uma frase</span><p>Tudo replicável a partir das tabelas publicadas. Cada extensão é uma issue aberta — comentar é orientar.</p></div>
+  <p class="lead">Cada número desta nota tem um script que o reproduz a partir das tabelas do paper, sem nenhum dado proprietário — para que vocês possam conferir em minutos, não em dias. Os próximos passos entram no mesmo repositório como <b>issues abertas</b>: um lugar onde comentar é orientar, e onde a conversa fica registrada para quem vier depois.</p>
   <div class="steps">
     <div class="step"><div class="n">1</div><h3>O que já está lá</h3><p><code>data/</code> — Tabelas 1, 3 e 7 transcritas em CSV.<br><code>src/carrego_realizado.py</code> — o carrego por janela (seção 03).<br><code>src/tabela7_custos.py</code> — Tabela 7 com IR e custódia.<br><code>outputs/</code> — os CSVs de resultado.<br><code>docs/</code> — esta nota.</p><div class="tag"><a href="https://github.com/epb-stack/carrego-nao-protecao" style="color:inherit">github.com/epb-stack/carrego-nao-protecao</a></div></div>
     <div class="step"><div class="n">2</div><h3>O que roda em seguida</h3><p><code>src/decompoe_carrego.py</code> baixa IPCA, CDI e Focus do Banco Central, <b>valida a reconstrução contra a Tabela 7</b> e decompõe o carrego em prêmio ex-ante e erro de expectativa (passo 1). Com <code>PASSO2 = True</code>, acrescenta o prefixado de 5 anos à Tabela 7 (passo 2). Resultados vão para <code>outputs/</code> com commit datado.</p><div class="tag">prazo: duas semanas · hipóteses declaradas no cabeçalho do script</div></div>
-    <div class="step"><div class="n">3</div><h3>Como vocês entram</h3><p>Cada extensão é uma <b>issue</b> no repositório: "Decomposição com o Focus", "Prefixado na Tabela 7", "Glide path padrão com RendA+". Comentar numa issue é orientar. Um pull request de vocês é coautoria. E um "isso não faz sentido" numa issue vale mais que qualquer elogio.</p><div class="tag"><a href="https://github.com/epb-stack/carrego-nao-protecao/issues" style="color:inherit">github.com/epb-stack/carrego-nao-protecao/issues</a></div></div>
+    <div class="step"><div class="n">3</div><h3>Como vocês entram</h3><p>Cada extensão é uma <b>issue</b>: "Decomposição com o Focus", "Prefixado na Tabela 7", "Glide path padrão com RendA+". Um comentário de vocês numa issue já muda o rumo do trabalho. Um pull request é coautoria. E um "não é por aí" dito cedo vale mais do que qualquer elogio dito tarde.</p><div class="tag"><a href="https://github.com/epb-stack/carrego-nao-protecao/issues" style="color:inherit">github.com/epb-stack/carrego-nao-protecao/issues</a></div></div>
   </div>
   <div class="tiles">
     <div class="tile"><div class="v" style="font-size:26px;line-height:1.1">README</div><div class="l">tese, resultados, hipóteses, como reproduzir</div><div class="s"><a href="https://github.com/epb-stack/carrego-nao-protecao#readme" style="color:inherit">github.com/epb-stack/carrego-nao-protecao#readme</a></div></div>
     <div class="tile ver"><div class="v" style="font-size:26px;line-height:1.1">Esta nota</div><div class="l">versão web, tema claro e escuro, celular</div><div class="s"><a href="https://epb-stack.github.io/carrego-nao-protecao/" style="color:inherit">epb-stack.github.io/carrego-nao-protecao/</a></div></div>
     <div class="tile vin"><div class="v" style="font-size:26px;line-height:1.1">Pré-projeto</div><div class="l">glide path com RendA+ para a previdência — dissertação 2027</div><div class="s">em preparação · Insper MPE</div></div>
   </div>
-  <div class="fala">"Não estou pedindo que concordem. Estou pedindo que me digam onde estou errada — e, se não estiver, por onde seguir."</div>
+  <div class="fala">"O paper de vocês me devolveu uma pergunta que eu tinha parado de fazer. Esta nota é a minha tentativa de devolver algo de volta — e de perguntar se posso continuar a partir daqui, com vocês."</div>
 </div></section>
 
 <footer><div class="wrap">Érika Bosco · epbosco@gmail.com · IA for Finance · Fonte: Marinho, Ribeiro e Wichmann, "Repensando o ativo sem risco: uma visão brasileira", jun/2026. Cálculos a partir das tabelas publicadas; nenhum dado externo.</div></footer>
+<script>(function(){var p=document.getElementById('prog');function up(){var h=document.documentElement;var m=h.scrollHeight-h.clientHeight;p.style.width=(m>0?(h.scrollTop/m*100):0)+'%';}addEventListener('scroll',up,{passive:true});up();
+var links=[].slice.call(document.querySelectorAll('nav a[href^="#"]'));var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))}).filter(Boolean);
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id)})}})},{rootMargin:'-40% 0px -55% 0px'});secs.forEach(function(x){io.observe(x)});}})();</script>
 </body></html>
