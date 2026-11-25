@@ -18,10 +18,22 @@ Nota visual para os autores: [`docs/index.html`](docs/index.html).
 
 Leitura: o imposto troca "imunização perfeita" por "imunização com prêmio conhecido"; o argumento de *retorno* da Seção 7 não se sustenta; o argumento de *variância do passivo* da Tabela 7 fica — e vira o único.
 
+## Passo 1 concluído — decomposição do carrego com dados do BCB (25/11/2026)
+
+Reconstrução da Tabela 7 com IPCA (SGS 433) e CDI (SGS 4391): erro máximo de 0,06% no portfólio CDI e de 1,8% na faculdade corrigida (dia exato de entrada). Com as medianas do Focus (Olinda, expectativas anuais de Selic e IPCA nos 15 primeiros dias de cada entrada), o carrego de cada janela se divide em duas partes:
+
+| Componente | Média (23 janelas) | Positivo em |
+|---|---|---|
+| Carrego realizado (yield real NTN-B − Selic real realizada) | **+2,26 pp/ano** | 20 de 23 |
+| Prêmio ex-ante (yield real − Selic real esperada pelo Focus) | **+1,03 pp/ano** | **23 de 23** |
+| Erro de expectativa (Selic real esperada − realizada) | +1,23 pp/ano | 17 de 23 |
+
+Leitura: em nenhuma janela a NTN-B foi comprada com yield real abaixo da Selic real esperada — o mercado sempre cobrou para carregar prazo. O excesso sobre o CDI é prêmio de prazo sistemático, não sorte nem proteção. O erro de expectativa domina nas entradas de 2016–18 e inverte em 2020–21: a decomposição é dependente de regime, e por isso serve de monitor. Resultados em `outputs/decomposicao_carrego.csv`, `outputs/validacao_tabela7.csv` e `outputs/decomposicao_carrego.png`.
+
 ## Estrutura
 
 ```
-data/      tabelas do paper transcritas (Tabela 1, 3 e 7)
+data/      tabelas do paper transcritas (Tabela 1, 3 e 7); data/cache/ séries do BCB usadas no passo 1
 src/       scripts
 outputs/   resultados em CSV
 docs/      nota visual (HTML, tema claro/escuro)
@@ -35,10 +47,10 @@ pip install -r requirements.txt
 
 python3 src/carrego_realizado.py     # carrego por janela (só Tabela 7)
 python3 src/tabela7_custos.py        # Tabela 7 com IR e custódia
-python3 src/decompoe_carrego.py      # passo 1: decomposição com o Focus (baixa dados do BCB)
+python3 src/decompoe_carrego.py      # passo 1: decomposição com o Focus (usa data/cache/; baixa do BCB se faltar)
 ```
 
-`decompoe_carrego.py` baixa IPCA e CDI (API SGS) e expectativas Focus (API Olinda), valida a reconstrução contra a Tabela 7 e decompõe o carrego em **prêmio a termo ex-ante** (yield real − Selic real esperada) e **erro de expectativa** (Selic esperada − realizada). Para o passo 2 (prefixado de 5 anos na Tabela 7), troque `PASSO2 = False` por `True`.
+`decompoe_carrego.py` lê IPCA, CDI e Focus de `data/cache/` (incluído no repositório, para rodar sem rede) ou os baixa das APIs SGS e Olinda do BCB e cria o cache; valida a reconstrução contra a Tabela 7 e decompõe o carrego em **prêmio a termo ex-ante** (yield real − Selic real esperada) e **erro de expectativa** (Selic esperada − realizada). Para o passo 2 (prefixado de 5 anos na Tabela 7), troque `PASSO2 = False` por `True`.
 
 ## Hipóteses declaradas
 
@@ -49,7 +61,7 @@ python3 src/decompoe_carrego.py      # passo 1: decomposição com o Focus (baix
 
 ## Próximos passos
 
-1. Decomposição do carrego com o Focus (passo 1) — `src/decompoe_carrego.py`.
+1. ~~Decomposição do carrego com o Focus (passo 1)~~ — feito, ver acima.
 2. Prefixado de 5 anos como terceiro portfólio da Tabela 7 (passo 2) — único comparador que testa proteção.
 3. Default da previdência: glide path padrão com RendA+ como âncora; custo de ancorar no CDI em probabilidade de shortfall da renda-alvo (pré-projeto de dissertação, Insper MPE 2027).
 

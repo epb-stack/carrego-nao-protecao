@@ -76,19 +76,30 @@ H = 5  # anos
 # --------------------------------------------------------------------------
 # 1. SGS: IPCA (433) e CDI mensal (4391)
 # --------------------------------------------------------------------------
-def sgs(codigo, ini="01/12/2009", fim="31/01/2026"):
+import os
+CACHE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "cache")
+os.makedirs(CACHE, exist_ok=True)
+
+def sgs(codigo, nome, ini="01/12/2009", fim="31/01/2026"):
+    """Série mensal do SGS. Usa data/cache/sgs_<codigo>_<nome>.csv se existir; senão baixa e salva."""
+    fcache = os.path.join(CACHE, f"sgs_{codigo}_{nome}.csv")
+    if os.path.exists(fcache):
+        df = pd.read_csv(fcache)
+        df["ym"] = pd.PeriodIndex(df["ym"], freq="M")
+        return df.set_index("ym")["valor"].astype(float)
     url = f"https://api.bcb.gov.br/dados/serie/bcdata.sgs.{codigo}/dados"
     r = requests.get(url, params={"formato":"json","dataInicial":ini,"dataFinal":fim}, timeout=60)
     r.raise_for_status()
     df = pd.DataFrame(r.json())
     df["data"] = pd.to_datetime(df["data"], dayfirst=True)
-    df["valor"] = pd.to_numeric(df["valor"].str.replace(",", "."), errors="coerce")
+    df["valor"] = pd.to_numeric(df["valor"].astype(str).str.replace(",", "."), errors="coerce")
     df["ym"] = df["data"].dt.to_period("M")
+    df[["ym","valor"]].to_csv(fcache, index=False)
     return df.set_index("ym")["valor"]
 
-print("Baixando IPCA e CDI do SGS...")
-ipca = sgs(433)   # variação % mensal
-cdi  = sgs(4391)  # CDI acumulado no mês, %
+print("Carregando IPCA e CDI (cache local ou SGS)...")
+ipca = sgs(433, "ipca")  # variação % mensal
+cdi  = sgs(4391, "cdi")  # CDI acumulado no mês, %
 
 def fator(serie, ym_ini, ym_fim):
     """Produto de (1+x/100) de ym_ini (inclusive) a ym_fim (exclusive) — meses do período."""
@@ -126,16 +137,30 @@ print("Se os erros forem < 1%, a reconstrução bate com o paper (diferenças = 
 # --------------------------------------------------------------------------
 OLINDA = "https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoAnuais"
 
+FOCUS_CACHE = os.path.join(CACHE, "focus_anuais_entradas.csv")
+
 def focus_anual(indicador, data_ini, data_fim):
-    flt = f"Indicador eq '{indicador}' and Data ge '{data_ini}' and Data le '{data_fim}'"
-    params = {"$filter": flt, "$format": "json", "$top": "10000",
-              "$select": "Indicador,Data,DataReferencia,Mediana,baseCalculo"}
-    r = requests.get(OLINDA, params=params, timeout=120); r.raise_for_status()
-    df = pd.DataFrame(r.json()["value"])
+    """Expectativas anuais do Focus. Usa data/cache/focus_anuais_entradas.csv se existir
+    (medianas de Selic e IPCA nos 15 primeiros dias de cada mês de entrada da Tabela 7);
+    senão baixa da API Olinda, por janela de entrada, e salva o cache."""
+    if os.path.exists(FOCUS_CACHE):
+        df = pd.read_csv(FOCUS_CACHE)
+    else:
+        parts = []
+        for ini, *_ in TAB7:
+            flt = (f"(Indicador eq 'Selic' or Indicador eq 'IPCA') and "
+                   f"Data ge '{ini}-01' and Data le '{ini}-15'")
+            params = {"$filter": flt, "$format": "json", "$top": "5000",
+                      "$select": "Indicador,Data,DataReferencia,Mediana,baseCalculo"}
+            r = requests.get(OLINDA, params=params, timeout=120); r.raise_for_status()
+            parts.append(pd.DataFrame(r.json()["value"]))
+        df = pd.concat(parts, ignore_index=True)
+        df.to_csv(FOCUS_CACHE, index=False)
+    df = df[df["Indicador"] == indicador].copy()
     if df.empty: return df
     df["Data"] = pd.to_datetime(df["Data"])
     df["DataReferencia"] = df["DataReferencia"].astype(int)
-    # baseCalculo 0 = todos os respondentes (quando existir a coluna)
+    df["Mediana"] = pd.to_numeric(df["Mediana"], errors="coerce")
     if "baseCalculo" in df and df["baseCalculo"].notna().any():
         df = df[df["baseCalculo"] == 0]
     return df
@@ -148,7 +173,7 @@ def expectativa_vigente(df, data_entrada, ano_ref):
         sub = df[(df.DataReferencia == ano_ref) & (df.Data <= d0)].sort_values("Data").tail(1)
     return float(sub.sort_values("Data").iloc[0]["Mediana"]) if not sub.empty else math.nan
 
-print("\nBaixando expectativas Focus (Selic e IPCA anuais)...")
+print("\nCarregando expectativas Focus (cache local ou Olinda)...")
 sel = focus_anual("Selic", "2009-12-01", "2021-02-01")
 inf = focus_anual("IPCA",  "2009-12-01", "2021-02-01")
 
