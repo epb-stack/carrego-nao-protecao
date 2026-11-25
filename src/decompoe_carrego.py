@@ -235,36 +235,4 @@ try:
 except Exception as e:
     print("matplotlib indisponível; gráfico não gerado:", e)
 
-# --------------------------------------------------------------------------
-# 5. (Opcional) Passo 2 — prefixado de 5 anos na Tabela 7
-#    Precisa do histórico de taxas do Tesouro Direto (LTN/NTN-F). O arquivo é grande
-#    (~100 MB). Descomente para rodar.
-# --------------------------------------------------------------------------
-PASSO2 = False
-if PASSO2:
-    URL_TD = ("https://www.tesourotransparente.gov.br/ckan/dataset/taxas-dos-titulos-ofertados-pelo-tesouro-direto/"
-              "resource/796d2059-14e9-44e3-80c9-2d9e30b405c1/download/PrecoTaxaTesouroDireto.csv")
-    print("\nBaixando histórico do Tesouro Direto (pode demorar)...")
-    td = pd.read_csv(URL_TD, sep=";", decimal=",", encoding="latin1")
-    td["Data Base"] = pd.to_datetime(td["Data Base"], dayfirst=True)
-    td["Data Vencimento"] = pd.to_datetime(td["Data Vencimento"], dayfirst=True)
-    pre = td[td["Tipo Titulo"].str.contains("Prefixado|LTN|NTN-F", regex=True)]
-    res = []
-    for r in rows:
-        d_ent = pd.Timestamp(r["inicio"] + "-01"); d_alvo = pd.Timestamp(r["resgate"] + "-01")
-        cand = pre[(pre["Data Base"] >= d_ent) & (pre["Data Base"] <= d_ent + timedelta(days=10))].copy()
-        if cand.empty: continue
-        cand["dist"] = (cand["Data Vencimento"] - d_alvo).abs()
-        best = cand.sort_values(["dist","Data Base"]).iloc[0]
-        tx_nom = best["Taxa Compra Manha"]/100
-        I_ini,_ = fator(ipca, "2009-12", r["inicio"]); I_fim,_ = fator(ipca, "2009-12", r["resgate"]); I_win = I_fim/I_ini
-        # prefixado: aporte igual ao da NTN-B; valor final nominal travado
-        final_pre = r["aporte"] * (1+tx_nom)**H
-        res.append(dict(inicio=r["inicio"], titulo=best["Tipo Titulo"], venc=best["Data Vencimento"].date(),
-                        taxa_nominal=tx_nom*100, final_prefixado=final_pre, faculdade=BASE*I_fim,
-                        gap_prefixado_pct=(final_pre/(BASE*I_fim)-1)*100,
-                        inflacao_implicita=((1+tx_nom)/(1+r["yield_real_ntnb"]/100)-1)*100,
-                        inflacao_realizada=(I_win**(1/H)-1)*100))
-    p2 = pd.DataFrame(res); p2.to_csv("tabela7_prefixado.csv", index=False)
-    print(p2.round(2).to_string(index=False))
-    print("\nGap do prefixado vs faculdade: positivo = a inflação realizada ficou ABAIXO da implícita (proteção não pagou).")
+# Passo 2 (prefixado de 5 anos na Tabela 7): ver src/tabela7_prefixado.py

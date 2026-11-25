@@ -1,4 +1,4 @@
-# Carrego, não proteção
+# Carrego, mais que proteção
 
 Replicação e extensão de **Marinho, Ribeiro e Wichmann (2026), "Repensando o ativo sem risco: uma visão brasileira"** — Insper / XP.
 
@@ -17,6 +17,20 @@ Nota visual para os autores: [`docs/index.html`](docs/index.html).
 | Aporte extra que restaura a imunização líquida | +8,0% | derivado da Tabela 7 |
 
 Leitura: o imposto troca "imunização perfeita" por "imunização com prêmio conhecido"; o argumento de *retorno* da Seção 7 não se sustenta; o argumento de *variância do passivo* da Tabela 7 fica — e vira o único.
+
+## Passo 2 concluído — o prefixado de 5 anos na Tabela 7 (25/11/2026)
+
+Mesmo aporte da NTN-B; título prefixado (LTN/NTN-F) com vencimento mais próximo do resgate, cotado nos 15 primeiros dias da entrada (Tesouro Direto, taxa de compra); valor final bruto, como na Tabela 7.
+
+| Portfólio | Gap médio vs faculdade | Acima do alvo | Dispersão |
+|---|---|---|---|
+| NTN-B casada | 0 (por construção) | — | 0 |
+| Prefixado 5 anos | **−3,7%** | 4 de 23 | 7,7% |
+| CDI | −9,8% | 3 de 23 | 9,8% |
+
+Inflação implícita na entrada 5,07% a.a.; realizada 5,92%. **Proteção realizada +0,85 pp/ano, positiva em 19 de 23** (robusta ao descasamento de vencimento: títulos com desvio ≤ 6 meses, +0,89). Retorno real médio: NTN-B 5,27% · prefixado 4,44% · CDI 3,01%.
+
+**Correção da tese (25/11/2026).** A frase de abertura era "carrego, não proteção", apoiada na Tabela 3 (índices de duration constante: prefixado ≈ IPCA+). Carregados até o vencimento, nas janelas que terminam entre 2015 e 2026, a proteção não foi zero: pagou 0,85 pp/ano — contra 2,26 de carrego (2,6×). Os dois resultados medem coisas diferentes e são ambos verdadeiros. A frase passa a ser **carrego, mais que proteção**. O nome do repositório fica como registro de onde a pesquisa começou. Resultados em `outputs/tabela7_prefixado.csv` e `.png`.
 
 ## Passo 1 concluído — decomposição do carrego com dados do BCB (25/11/2026)
 
@@ -48,9 +62,10 @@ pip install -r requirements.txt
 python3 src/carrego_realizado.py     # carrego por janela (só Tabela 7)
 python3 src/tabela7_custos.py        # Tabela 7 com IR e custódia
 python3 src/decompoe_carrego.py      # passo 1: decomposição com o Focus (usa data/cache/; baixa do BCB se faltar)
+python3 src/tabela7_prefixado.py     # passo 2: prefixado de 5 anos na Tabela 7 (usa data/cache/)
 ```
 
-`decompoe_carrego.py` lê IPCA, CDI e Focus de `data/cache/` (incluído no repositório, para rodar sem rede) ou os baixa das APIs SGS e Olinda do BCB e cria o cache; valida a reconstrução contra a Tabela 7 e decompõe o carrego em **prêmio a termo ex-ante** (yield real − Selic real esperada) e **erro de expectativa** (Selic esperada − realizada). Para o passo 2 (prefixado de 5 anos na Tabela 7), troque `PASSO2 = False` por `True`.
+`decompoe_carrego.py` lê IPCA, CDI e Focus de `data/cache/` (incluído no repositório, para rodar sem rede) ou os baixa das APIs SGS e Olinda do BCB e cria o cache; valida a reconstrução contra a Tabela 7 e decompõe o carrego em **prêmio a termo ex-ante** (yield real − Selic real esperada) e **erro de expectativa** (Selic esperada − realizada). `tabela7_prefixado.py` usa o recorte do histórico do Tesouro Direto em `data/cache/` (só prefixados nos 15 primeiros dias de cada entrada; o arquivo completo tem 14 MB e está em tesourotransparente.gov.br).
 
 ## Hipóteses declaradas
 
@@ -62,7 +77,7 @@ python3 src/decompoe_carrego.py      # passo 1: decomposição com o Focus (usa 
 ## Próximos passos
 
 1. ~~Decomposição do carrego com o Focus (passo 1)~~ — feito, ver acima.
-2. Prefixado de 5 anos como terceiro portfólio da Tabela 7 (passo 2) — único comparador que testa proteção.
+2. ~~Prefixado de 5 anos como terceiro portfólio da Tabela 7 (passo 2)~~ — feito, ver acima. Fica em aberto a versão líquida de IR sobre a correção monetária.
 3. Default da previdência: glide path padrão com RendA+ como âncora; custo de ancorar no CDI em probabilidade de shortfall da renda-alvo (pré-projeto de dissertação, Insper MPE 2027).
 
 ## Autora
